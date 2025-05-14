@@ -85,7 +85,9 @@ export default function AllVideos() {
               className="bg-mainColor border rounded-xl space-y-2 shadow-md p-4"
             >
               <img
-                src={`https://plmetadata9872.b-cdn.net/${video.streamId}/thumbnail.jpg`}
+
+                src={`https://khetatplusstream.b-cdn.net//${video.streamId}/thumbnail.jpg`}
+             
                 className="w-full h-48 object-cover rounded-lg mb-4"
                 alt="Video Thumbnail"
               />
