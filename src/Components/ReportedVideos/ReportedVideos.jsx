@@ -120,7 +120,7 @@ export default function ReportedVideos() {
       }
     }
       
-       
+
      
 
   return (
@@ -197,7 +197,9 @@ export default function ReportedVideos() {
                {/* Video Thumbnail */}
                <img
                  className="w-full h-48 object-cover"
-                 src={`https://plmetadata9872.b-cdn.net/${video.streamId}/thumbnail.jpg`}
+
+                 src={`https://khetatplusstream.b-cdn.net//${video.streamId}/thumbnail.jpg`}
+
                  alt={video.title}
                />
        
