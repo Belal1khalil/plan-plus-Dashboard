@@ -982,7 +982,7 @@ export default function GetUser() {
               onChange={Formik.handleChange}
               onBlur={Formik.handleBlur}
               value={Formik.values.email}
-              className="block w-full pl-10 pr-12 py-3 border border-gray-300 rounded-lg bg-white dark:bg-gray-800 dark:border-gray-700 focus:ring-2 focus:ring-mainColor focus:border-transparent"
+              className="block w-full pl-10 pr-12 py-3 border border-gray-300 rounded-lg bg-white focus:ring-2 focus:ring-mainColor focus:border-transparent"
               placeholder="Enter user email..."
             />
             <button
@@ -1024,7 +1024,7 @@ export default function GetUser() {
                   {selectedUser?.email || userData?.email}
                 </p>
               </div>
-              <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-mainColor bg-opacity-10 text-mainColor">
+              <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-mainColor text-white bg-opacity-10 ">
                 {selectedUser?.role || userData?.role}
               </span>
             </div>
