@@ -37,7 +37,7 @@ export default function ReportedVideos() {
   ////// getReportedVideos
 
   async function getReportedVideos() {
-    console.log("getReportedVideos");
+    
     
     try {
       const options = {
@@ -50,6 +50,7 @@ export default function ReportedVideos() {
       };
 
       const data = await axios.request(options);
+      console.log(data);
       if (data.status === 200) {
         setReportedVideos(data.data.data.items);
       }
@@ -95,11 +96,13 @@ export default function ReportedVideos() {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       };
-      const res = await axios.request(options);
+      const data = await axios.request(options);
+      console.log(data);
+       getReportedVideos();
 
       if (data.message === "Operation completed Successfully") {
         toast.success("Video Ignored Successfully");
-        getReportedVideos();
+       
       }
       
     } catch (error) {
@@ -193,11 +196,14 @@ export default function ReportedVideos() {
                     </div>
 
                     {/* Video Thumbnail */}
+                      <Link to={`/Dashboard/ShowVideo/${video.streamId}`}>
                     <img
                       className="w-full h-48 object-cover"
+
                       src={`https://khetatplusstream.b-cdn.net//${video.streamId}/thumbnail.jpg`}
                       alt={video.title}
                     />
+                    </Link>
 
                     {/* Video Info Section */}
                     <div className="p-4">
