@@ -1,9 +1,5 @@
-
 import "./App.css";
-import {
-  createHashRouter,
-  RouterProvider,
-} from "react-router-dom";
+import { createHashRouter, RouterProvider } from "react-router-dom";
 import Login from "./Components/Login/Login";
 import AuthContextProvider from "./Context/AuthContext";
 import Layout from "./assets/Layout/Layout";
@@ -13,6 +9,7 @@ import GetUser from "./Components/GetUser/GetUser";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "react-hot-toast";
 import Protected from "./Gaurd/Protected";
+import ShowVideo from "./Components/ShowVideo/ShowVideo";
 const router = createHashRouter([
   {
     path: "/",
@@ -20,7 +17,11 @@ const router = createHashRouter([
   },
   {
     path: "/Dashboard",
-    element: <Protected><Layout /></Protected>,
+    element: (
+      <Protected>
+        <Layout />
+      </Protected>
+    ),
     children: [
       {
         index: true,
@@ -37,18 +38,22 @@ const router = createHashRouter([
       {
         path: "reportedVideos",
         element: <ReportedVideos />,
-      }
-    ]
-  }
+      },
+      {
+        path: "ShowVideo/:id",
+        element: <ShowVideo />,
+      },
+    ],
+  },
 ]);
-const queryClient = new QueryClient()
+const queryClient = new QueryClient();
 
 function App() {
   return (
     <>
       <AuthContextProvider>
         <QueryClientProvider client={queryClient}>
-        <RouterProvider router={router} />
+          <RouterProvider router={router} />
         </QueryClientProvider>
       </AuthContextProvider>
       <Toaster position="top-right" />

@@ -1,22 +1,18 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import DeleteAlert from "../DeleteAlert/DeleteAlert";
+import { Link } from "react-router-dom";
 
 export default function AllVideos() {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
   const [videos, setVideos] = useState([]);
-  const [del, setDelete] = useState(false);
+  const [selectedVideoId, setSelectedVideoId] = useState(null); // ← تم التعديل هنا
   const [totalPages, setTotalPages] = useState(1);
 
   useEffect(() => {
     getAllVideos();
   }, [currentPage]);
-
-  function handelDelete(){
-
-    setDelete(!del);
-  }
 
   async function getAllVideos() {
     try {
@@ -32,10 +28,6 @@ export default function AllVideos() {
       console.log(response);
       if (response?.data?.succeeded) {
         setVideos(response.data.data.items);
-       
-      
- 
-        // فقط العناصر
         setTotalPages(response.data.data.totalPages || 1);
       }
     } catch (error) {
@@ -44,10 +36,7 @@ export default function AllVideos() {
   }
 
   async function deleteVideo(videoId) {
-    console.log(videoId);
-    
     try {
-      // eslint-disable-next-line no-unused-vars
       const response = await axios.delete(
         `https://plansplus.runasp.net/api/Video/${videoId}`,
         {
@@ -56,17 +45,16 @@ export default function AllVideos() {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
         }
-
       );
-     getAllVideos();
-      
+      console.log(response);
+      getAllVideos();
+      console.log("deleted");
     } catch (error) {
       console.error(error);
-    } 
+    }
   }
+
   console.log(videos);
-  
-  
 
   return (
     <div className="h-screen">
@@ -84,25 +72,28 @@ export default function AllVideos() {
               key={index}
               className="bg-mainColor border rounded-xl space-y-2 shadow-md p-4"
             >
+                <Link to={`/Dashboard/ShowVideo/${video.streamId}`}>
               <img
-
                 src={`https://khetatplusstream.b-cdn.net//${video.streamId}/thumbnail.jpg`}
-             
                 className="w-full h-48 object-cover rounded-lg mb-4"
                 alt="Video Thumbnail"
-              />
+                />
+                </Link>
               <h3 className="text-lg font-semibold text-gray-100">
-              <span className="font-bold">Title : </span>  {video.title}
+                <span className="font-bold">Title : </span> {video.title}
               </h3>
-              <p className="text-sm text-gray-100"> <span className="font-bold">Publisher : </span>{video.publisherName}</p>
               <p className="text-sm text-gray-100">
-              <span className="font-bold">Upload Date : </span>
+                <span className="font-bold">Publisher : </span>
+                {video.publisherName}
+              </p>
+              <p className="text-sm text-gray-100">
+                <span className="font-bold">Upload Date : </span>
                 {new Date(video.uploadDate).toLocaleDateString("en-GB", {
                   day: "2-digit",
                   month: "long",
                   year: "numeric",
-                })}
-                {" at "}
+                })}{" "}
+                at{" "}
                 {new Date(video.uploadDate).toLocaleTimeString([], {
                   hour: "2-digit",
                   minute: "2-digit",
@@ -111,22 +102,26 @@ export default function AllVideos() {
 
               <div className="mt-4 flex justify-end">
                 <button
-                  onClick={() =>{
-                    setDelete(true)
-                    
-                    
-                  }} 
+                  onClick={() => setSelectedVideoId(video.id)}
                   className="bg-red-600 hover:bg-red-700 transition-all text-white font-bold py-2 px-4 rounded"
                 >
                   Delete
                 </button>
               </div>
-              {
-                del ? <DeleteAlert  onConfirm={() => deleteVideo(video.id)} onClose={handelDelete} /> : null
-              }
+
+              {selectedVideoId === video.id && (
+                <DeleteAlert
+                  onConfirm={() => {
+                    deleteVideo(video.id);
+                    setSelectedVideoId(null);
+                  }}
+                  onClose={() => setSelectedVideoId(null)}
+                />
+              )}
             </div>
           ))}
         </div>
+
         {/* Pagination Controls */}
         <div className="flex justify-center items-center gap-2 mt-6">
           <button
