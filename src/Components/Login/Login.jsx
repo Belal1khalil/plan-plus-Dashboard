@@ -16,6 +16,7 @@ export default function Login() {
   const [error, setError] = useState(false);
   const navigate = useNavigate();
   const [succeeded, setSucceeded] = useState(false);
+  const [errorMessage,setErrorMessage] = useState(false);
   const [loading, setLoading] = useState(false);
   const PassRegex = /^(?=.*[A-Z]).{8,}$/;
   const validationSchema = Yup.object().shape({
@@ -67,12 +68,11 @@ export default function Login() {
         setTimeout(() => {
           navigate("/Dashboard");
         }, 1500);
-      } else {
-        setError(true);
-        setShowError(true);
       }
     } catch (err) {
-      console.log(err);
+      setError(true);
+      setShowError(true);
+      setErrorMessage(err.response.data.message);
     } finally {
       setLoading(false);
     }
@@ -204,7 +204,7 @@ export default function Login() {
                         {error ? (
                           <SweetAlert
                             title="Access Denied"
-                            text={"You Are Not Admin or Modrator"}
+                            text={errorMessage}
                             icon="error"
                             trigger={showError}
                           />
