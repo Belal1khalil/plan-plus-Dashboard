@@ -7,13 +7,13 @@ export default function AuthContextProvider({ children }) {
   let [token, setToken] = useState(null);
 
   useEffect(() => {
-  localStorage.getItem("token") 
-  setToken(localStorage.getItem("token"));
+  sessionStorage.getItem("token") 
+  setToken(sessionStorage.getItem("token"));
   }, [token]);
 
 
  function logout() {
-  localStorage.removeItem("token");
+  sessionStorage.removeItem("token");
   setToken(null);
 }
 

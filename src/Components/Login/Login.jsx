@@ -36,10 +36,8 @@ export default function Login() {
       password: "",
     },
     validationSchema,
-    onSubmit: (values) => {
-      console.log(values);
-    },
-    onSubmit: login,
+    onSubmit: (values) => login(values),
+   
   });
   async function login(values) {
     setError(false);
@@ -59,7 +57,7 @@ export default function Login() {
       console.log(data);
 
       if (data.succeeded === true) {
-        localStorage.setItem("token", data.token);
+        sessionStorage.setItem("token", data.token);
         setToken(data.token);
         setSucceeded(true);
         setShowError(true);
