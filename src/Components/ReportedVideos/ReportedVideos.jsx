@@ -7,6 +7,7 @@ import { Link } from "react-router-dom";
 export default function ReportedVideos() {
   const [currentPage, setCurrentPage] = useState(1);
   const [del, setDelete] = useState(false);
+  const [selectedVideoId, setSelectedVideoId] = useState(null);
   const cardsPerPage = 12;
 
   function handelDelete() {
@@ -37,8 +38,6 @@ export default function ReportedVideos() {
   ////// getReportedVideos
 
   async function getReportedVideos() {
-    
-    
     try {
       const options = {
         url: `https://plansplus.runasp.net/api/ReportVideos?pageNumber=${currentPage}&pageSize=${cardsPerPage}`,
@@ -98,13 +97,11 @@ export default function ReportedVideos() {
       };
       const data = await axios.request(options);
       console.log(data);
-       getReportedVideos();
+      getReportedVideos();
 
       if (data.message === "Operation completed Successfully") {
         toast.success("Video Ignored Successfully");
-       
       }
-      
     } catch (error) {
       console.error(error);
     } finally {
@@ -196,13 +193,12 @@ export default function ReportedVideos() {
                     </div>
 
                     {/* Video Thumbnail */}
-                      <Link to={`/Dashboard/ShowVideo/${video.streamId}`}>
-                    <img
-                      className="w-full h-48 object-cover"
-
-                      src={`https://khetatplusstream.b-cdn.net//${video.streamId}/thumbnail.jpg`}
-                      alt={video.title}
-                    />
+                    <Link to={`/Dashboard/ShowVideo/${video.streamId}`}>
+                      <img
+                        className="w-full h-48 object-cover"
+                        src={`https://khetatplusstream.b-cdn.net//${video.streamId}/thumbnail.jpg`}
+                        alt={video.title}
+                      />
                     </Link>
 
                     {/* Video Info Section */}
@@ -221,17 +217,20 @@ export default function ReportedVideos() {
                           Ignore
                         </button>
                         <button
-                          onClick={() => setDelete(true)}
+                          onClick={() => setSelectedVideoId(video.videoId)} // Set the selected video ID when the button is clickedselectedVideoId}
                           className="flex-1 bg-red-600 hover:bg-red-700 text-white py-2 px-4 rounded transctions-color duration-300"
                         >
                           Delete
                         </button>
-                        {del ? (
+                        {selectedVideoId === video.videoId && (
                           <DeleteAlert
-                            onConfirm={() => deleteVideo(video.videoId)}
-                            onClose={handelDelete}
+                            onConfirm={() => {
+                              deleteVideo(video.videoId);
+                              setSelectedVideoId(null);
+                            }}
+                            onClose={() => setSelectedVideoId(null)}
                           />
-                        ) : null}
+                        )}
                       </div>
                     </div>
                   </div>
