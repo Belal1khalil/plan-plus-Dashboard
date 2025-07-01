@@ -46,7 +46,7 @@ export default function Login() {
     const vaalues = JSON.stringify(values, null, 2);
     try {
       const { data } = await axios.post(
-        "https://plansplus.runasp.net/api/Admin/Login",
+        "https://plans-plus.runasp.net/api/Admin/Login",
         vaalues,
         {
           headers: {

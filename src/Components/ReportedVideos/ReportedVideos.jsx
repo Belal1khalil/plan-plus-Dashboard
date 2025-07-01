@@ -40,11 +40,11 @@ export default function ReportedVideos() {
   async function getReportedVideos() {
     try {
       const options = {
-        url: `https://plansplus.runasp.net/api/ReportVideos?pageNumber=${currentPage}&pageSize=${cardsPerPage}`,
+        url: `https://plans-plus.runasp.net/api/ReportVideos?pageNumber=${currentPage}&pageSize=${cardsPerPage}`,
         method: "GET",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
+          Authorization: `Bearer ${sessionStorage.getItem("token")}`,
         },
       };
 
@@ -64,11 +64,11 @@ export default function ReportedVideos() {
 
     try {
       const options = {
-        url: `https://plansplus.runasp.net/api/ReportVideos/Approve-Report?videoId=${VideoId}`,
+        url: `https://plans-plus.runasp.net/api/ReportVideos/Approve-Report?videoId=${VideoId}`,
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
+          Authorization: `Bearer ${sessionStorage.getItem("token")}`,
         },
       };
       const { data } = await axios.request(options);
@@ -88,11 +88,11 @@ export default function ReportedVideos() {
     const loadingToaster = toast.loading("Loading...");
     try {
       const options = {
-        url: `https://plansplus.runasp.net/api/ReportVideos/Ignore-Report?VideoId=${VideoId}`,
+        url: `https://plans-plus.runasp.net/api/ReportVideos/Ignore-Report?VideoId=${VideoId}`,
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
+          Authorization: `Bearer ${sessionStorage.getItem("token")}`,
         },
       };
       const data = await axios.request(options);
