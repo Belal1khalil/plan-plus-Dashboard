@@ -17,11 +17,11 @@ export default function AllVideos() {
   async function getAllVideos() {
     try {
       const response = await axios.get(
-        `https://plansplus.runasp.net/api/Video/All?pageNumber=${currentPage}&pageSize=${itemsPerPage}`,
+        `https://plans-plus.runasp.net/api/Video/All?pageNumber=${currentPage}&pageSize=${itemsPerPage}`,
         {
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
+            Authorization: `Bearer ${sessionStorage.getItem("token")}`,
           },
         }
       );
@@ -38,11 +38,11 @@ export default function AllVideos() {
   async function deleteVideo(videoId) {
     try {
       const response = await axios.delete(
-        `https://plansplus.runasp.net/api/Video/${videoId}`,
+        `https://plans-plus.runasp.net/api/Video/${videoId}`,
         {
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
+            Authorization: `Bearer ${sessionStorage.getItem("token")}`,
           },
         }
       );
